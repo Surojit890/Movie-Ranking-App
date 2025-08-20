@@ -1,6 +1,7 @@
 import React, { useState, useEffect, use, useLayoutEffect } from "react";
 import Search from "./components/search.jsx";
 import Spinner from "./components/spinner.jsx";
+import Moviecard from "./components/moviecard.jsx";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -13,6 +14,7 @@ const API_OPTIONS = {
   },
 };
 
+//Main app content
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -32,7 +34,7 @@ const App = () => {
       }
 
       const data = await response.json();
-
+      
       if (data.response == "False") {
         setErrorMessage(
           data.Error || "Something went wrong, Please try again later"
@@ -50,6 +52,7 @@ const App = () => {
     }
   };
 
+  //Fetch movies on initial render
   useEffect(() => {
     fetchMovies();
   }, []);
@@ -76,7 +79,7 @@ const App = () => {
          ) : (
           <ul>
             {movieList.map((movie) => (
-              <p key={movie.id} className="text-white">{movie.title}</p>
+              <Moviecard key={movie.id} movie={movie} />
             ))}
           </ul>
          )}
