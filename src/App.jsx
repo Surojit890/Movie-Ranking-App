@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import {useDebounce} from 'react-use'
 import Search from "./components/search.jsx";
 import Spinner from "./components/spinner.jsx";
 import Moviecard from "./components/moviecard.jsx";
@@ -20,6 +21,11 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+  // Debounce the search term to prevent making too many API requests
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
+
 
   const fetchMovies = async (query = '') => {
     setIsLoading(true);
@@ -54,14 +60,10 @@ const App = () => {
     }
   };
 
-  //Fetch movies when the search term changes (with debounce)
+  //Fetch movies when the debounced search term changes
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      fetchMovies(searchTerm);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+    fetchMovies(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   return (
     <main>
