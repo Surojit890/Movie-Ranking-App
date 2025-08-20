@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "./components/search.jsx";
 import Spinner from "./components/spinner.jsx";
 import Moviecard from "./components/moviecard.jsx";
@@ -21,12 +21,14 @@ const App = () => {
   const [movieList, setMovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (query = '') => {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query 
+      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
       const response = await fetch(endpoint, API_OPTIONS);
       if (!response.ok) {
@@ -52,10 +54,14 @@ const App = () => {
     }
   };
 
-  //Fetch movies on initial render
+  //Fetch movies when the search term changes (with debounce)
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    const timeoutId = setTimeout(() => {
+      fetchMovies(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
   return (
     <main>
