@@ -148,21 +148,4 @@ Movie-Ranking-App/
 4. Push to the branch: `git push origin feature-name`
 5. Open a pull request
 
-## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🙏 Acknowledgments
-
-- [TMDB](https://www.themoviedb.org/) for providing the movie database API
-- [Appwrite](https://appwrite.io/) for backend services
-- [React](https://reactjs.org/) for the frontend framework
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-
-## 📞 Support
-
-If you have any questions or run into issues, please open an issue on GitHub or contact the maintainers.
-
----
-
-**Built with ❤️ by [Surojit890](https://github.com/Surojit890)**
