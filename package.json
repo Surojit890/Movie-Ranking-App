@@ -1,5 +1,5 @@
 {
-  "name": "pacakge.json",
+  "name": "movie-ranking-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",

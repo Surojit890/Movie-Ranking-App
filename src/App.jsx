@@ -3,7 +3,7 @@ import {useDebounce} from 'react-use'
 import Search from "./components/search.jsx";
 import Spinner from "./components/spinner.jsx";
 import Moviecard from "./components/moviecard.jsx";
-import { updateSearchCount, getTrendingMovies } from "./lib/appwrite.js";
+import { updateSearchCount, getTrendingMovies, client } from "./lib/appwrite.js";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -24,6 +24,12 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [trendingMovies, setTrendingMovies] = useState([]);
+
+  client.ping().then(() => {
+    console.log("Appwrite is reachable");
+  }).catch((error) => {
+    console.error("Error connecting to Appwrite:", error);
+  });
 
   // Debounce the search term to prevent making too many API requests
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
